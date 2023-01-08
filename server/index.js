@@ -14,7 +14,8 @@ mongoose.connect(process.env.MONGODB_URI, () => {
   console.log("Connected to MongoDB");
 });
 
-// API routes
+// API routes start here
+
 // create a health check endpoint
 app.get("/health", (req, res) => {
   res.send("OK");
@@ -76,46 +77,47 @@ app.post("/signup", async (req, res) => {
   }
   // Validation of empty fields end here
 
-//   Validation of email start here
-    const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (!emailRegex.test(email)) {
-        return res.status(422).json({
-            error: "Please enter a valid email",
-        });
-    }
-//   Validation exisiting email start here
-    const existingUser = await User.findOne({ email: email });
-    if (existingUser) {
-        return res.status(422).json({
-            error: "User already exists with that email",
-        });
-    }
-//   Validation of email end here
+  //   Validation of email start here
+  const emailRegex =
+    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(422).json({
+      error: "Please enter a valid email",
+    });
+  }
+  //   Validation exisiting email start here
+  const existingUser = await User.findOne({ email: email });
+  if (existingUser) {
+    return res.status(422).json({
+      error: "User already exists with that email",
+    });
+  }
+  //   Validation of email end here
 
-//   Validation of phone start here
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phone)) {
-        return res.status(422).json({
-            error: "Please enter a valid phone number",
-        });
-    }
+  //   Validation of phone start here
+  const phoneRegex = /^\d{10}$/;
+  if (!phoneRegex.test(phone)) {
+    return res.status(422).json({
+      error: "Please enter a valid phone number",
+    });
+  }
 
-// check if phone number already exists
-    const existingPhone = await User.findOne({ phone: phone });
-    if (existingPhone) {
-        return res.status(422).json({
-            error: "User already exists with that phone number",
-        });
-    }
-//   Validation of phone end here
+  // check if phone number already exists
+  const existingPhone = await User.findOne({ phone: phone });
+  if (existingPhone) {
+    return res.status(422).json({
+      error: "User already exists with that phone number",
+    });
+  }
+  //   Validation of phone end here
 
-//  Validation of password start here
-    if (password.length < 6) {
-        return res.status(422).json({
-            error: "Password must be at least 6 characters long",
-        });
-    }
-//  Validation of password end here
+  //  Validation of password start here
+  if (password.length < 6) {
+    return res.status(422).json({
+      error: "Password must be at least 6 characters long",
+    });
+  }
+  //  Validation of password end here
 
   const user = new User({
     name: name,
@@ -133,6 +135,49 @@ app.post("/signup", async (req, res) => {
     message: "User created successfully",
     user: savedUser,
   });
+});
+
+// login
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    // Validation of empty fields start here
+    const emptyFields = [];
+    if (!email) {
+        emptyFields.push("email");
+    }
+    if (!password) {
+        emptyFields.push("password");
+    }
+    if (emptyFields.length > 0) {
+        return res.status(422).json({
+            error: `Please add ${emptyFields.join(", ")}`,
+        });
+    }
+    // Validation of empty fields end here
+
+    //   Validation of email start here
+    const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(422).json({
+            error: "Please enter a valid email",
+        });
+    }
+    //   Validation of email end here
+
+    const user = await User.findOne ({ email: email, password: password });
+
+    if (!user) {
+        return res.status(422).json({
+            error: "Invalid email or password",
+        });
+    }
+
+    res.json({
+        success: true,
+        message: "User logged in successfully",
+        user: user,
+    });
 });
 
 // get all users
@@ -153,8 +198,8 @@ app.get("/user", async (req, res) => {
     name: req.query.name,
   }).limit(1);
   res.send(user);
+  // A - add a query string to the url like this: http://localhost:5000/user?name=Yash
 });
-// A - add a query string to the url like this: http://localhost:5000/user?name=Yash
 
 // API routes end here
 
