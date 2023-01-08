@@ -5,7 +5,10 @@ const UserSchema = new mongoose.Schema({
   email: String,
   phone: String,
   password: String,
-  role: "user" | "admin",
+  role: {
+    type: String,
+    default: "user",
+  },
   timestamp: {
     type: Date,
     default: Date.now,
