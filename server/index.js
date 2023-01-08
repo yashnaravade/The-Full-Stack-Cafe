@@ -34,14 +34,33 @@ app.post("/signup", async (req, res) => {
 
   const savedUser = await user.save();
 
-  res.send(savedUser ? "User created" : "User not created");
+  res.json({
+    success: true,
+    message: "User created successfully",
+    user: savedUser,
+  });
 });
 
 // get all users
 app.get("/all-users", async (req, res) => {
-    const users = await User.find({});
-    res.send(users);
+  const users = await User.find({});
+  res.send(users);
 });
+
+// get a user by id
+app.get("/user/:id", async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.send(user);
+});
+
+// find user by name
+app.get("/user", async (req, res) => {
+  const user = await User.find({
+    name: req.query.name,
+  }).limit(1);
+  res.send(user);
+});
+// A - add a query string to the url like this: http://localhost:5000/user?name=Yash
 
 // start the server
 app.listen(5000, () => {
