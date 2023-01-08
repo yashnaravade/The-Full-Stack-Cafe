@@ -139,45 +139,46 @@ app.post("/signup", async (req, res) => {
 
 // login
 app.post("/login", async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    // Validation of empty fields start here
-    const emptyFields = [];
-    if (!email) {
-        emptyFields.push("email");
-    }
-    if (!password) {
-        emptyFields.push("password");
-    }
-    if (emptyFields.length > 0) {
-        return res.status(422).json({
-            error: `Please add ${emptyFields.join(", ")}`,
-        });
-    }
-    // Validation of empty fields end here
-
-    //   Validation of email start here
-    const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (!emailRegex.test(email)) {
-        return res.status(422).json({
-            error: "Please enter a valid email",
-        });
-    }
-    //   Validation of email end here
-
-    const user = await User.findOne ({ email: email, password: password });
-
-    if (!user) {
-        return res.status(422).json({
-            error: "Invalid email or password",
-        });
-    }
-
-    res.json({
-        success: true,
-        message: "User logged in successfully",
-        user: user,
+  // Validation of empty fields start here
+  const emptyFields = [];
+  if (!email) {
+    emptyFields.push("email");
+  }
+  if (!password) {
+    emptyFields.push("password");
+  }
+  if (emptyFields.length > 0) {
+    return res.status(422).json({
+      error: `Please add ${emptyFields.join(", ")}`,
     });
+  }
+  // Validation of empty fields end here
+
+  //   Validation of email start here
+  const emailRegex =
+    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(422).json({
+      error: "Please enter a valid email",
+    });
+  }
+  //   Validation of email end here
+
+  const user = await User.findOne({ email: email, password: password });
+
+  if (!user) {
+    return res.status(422).json({
+      error: "Invalid email or password",
+    });
+  }
+
+  res.json({
+    success: true,
+    message: "User logged in successfully",
+    user: user,
+  });
 });
 
 // get all users
