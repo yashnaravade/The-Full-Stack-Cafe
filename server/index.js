@@ -226,6 +226,26 @@ app.post("/add-food-item", async (req, res) => {
   });
 });
 
+// get food items by category
+app.get("/food-items/:category", async (req, res) => {
+  const foodItems = await FoodItem.find({
+    category: req.params.category,
+  });
+
+  if (foodItems.length === 0) {
+    return res.status(422).json({
+      error: "No food items found",
+    });
+  }
+
+  res.json({
+    success: true,
+    message: "Food items fetched successfully",
+    data: foodItems,
+  });
+
+  // How to use this route: http://localhost:5000/food-items/veg
+});
 
 // API routes end here
 
