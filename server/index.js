@@ -290,6 +290,25 @@ app.get("/food-items/:category", async (req, res) => {
   // How to use this route: http://localhost:5000/food-items/veg
 });
 
+// get food item by title with regex
+app.get("/food-item", async (req, res) => {
+  const foodItem = await FoodItem.find({
+    title: { $regex: req.query.title, $options: "i" },
+  }); 
+  // i - case insensitive
+  // g - global search
+  // m - multiline search
+  // s - dotall
+
+  res.json({
+    success: true,
+    message: "Food item fetched successfully",
+    data: foodItem,
+  });
+
+  // A - add a query string to the url like this: http://localhost:5000/food-item?title=pizza
+});
+
 // API routes end here
 
 // start the server
