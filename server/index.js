@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import User from "./models/User.js";
+import FoodItem from "./models/FoodItem.js";
 
 // load environment variables
 dotenv.config();
@@ -201,6 +202,30 @@ app.get("/user", async (req, res) => {
   res.send(user);
   // A - add a query string to the url like this: http://localhost:5000/user?name=Yash
 });
+
+// Add food item route
+
+app.post("/add-food-item", async (req, res) => {
+  const { title, price, description, category, imgURL } = req.body; // destructuring
+
+  const foodItem = new FoodItem({
+    title: title,
+    price: price,
+    description: description,
+    category: category,
+    imgURL: imgURL,
+    timestamp: Date.now(),
+  });
+
+  const savedFoodItem = await foodItem.save();
+
+  res.json({
+    success: true,
+    message: "Food item added successfully",
+    data: savedFoodItem,
+  });
+});
+
 
 // API routes end here
 
