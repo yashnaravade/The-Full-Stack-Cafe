@@ -207,7 +207,6 @@ app.get("/user", async (req, res) => {
 });
 
 // Add food item route
-
 app.post("/add-food-item", async (req, res) => {
   const { title, price, description, category, imgURL } = req.body; // destructuring
 
@@ -384,6 +383,44 @@ app.post("/book-table", async (req, res) => {
     data: exisitingTable,
   });
 });
+
+// Table unbooking route
+app.post("/unbook-table", async (req, res) => {
+  const { tableNumber } = req.body;
+
+  const exisitingTable = await Table.findOne({ tableNumber: tableNumber });
+
+  if (exisitingTable && !exisitingTable.occupied) {
+    return res.status(422).json({
+      success: false,
+      error: "Table already unoccupied",
+    });
+  }
+
+  if (exisitingTable && exisitingTable.occupied) {
+    exisitingTable.occupied = false;
+    exisitingTable.occupiedBy = null;
+    await exisitingTable.save();
+  }
+
+  res.json({
+    success: true,
+    message: "Table unbooked successfully",
+    data: exisitingTable,
+  });
+});
+
+// get all the available tables
+app.get("/available-tables", async (req, res) => {
+  const availableTables = await Table.find({ occupied: false });
+
+  res.json({
+    success: true,
+    message: "Available tables fetched successfully",
+    data: availableTables,
+  });
+});
+
 
 // API routes end here
 
