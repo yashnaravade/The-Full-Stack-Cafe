@@ -325,7 +325,7 @@ app.post("/create-table", async (req, res) => {
     });
   }
 
-  if(!tableNumber) { 
+  if (!tableNumber) {
     return res.status(422).json({
       error: "Please add table number",
     });
@@ -340,45 +340,49 @@ app.post("/create-table", async (req, res) => {
     success: true,
     message: "Table created successfully",
     data: table,
-  } );
+  });
 
   const savedTable = await table.save();
-
 });
-
 
 // Table booking route
 app.post("/book-table", async (req, res) => {
-  const { tableNumber } = req.body;
+  const { tableNumber, userId } = req.body;
 
-  const exisitingTable = await Table.findOne({ tableNumber: tableNumber });
-
-  if (exisitingTable) {
-    return res.status(422).json({
-      success: false,
-      error: "Table already booked",
-    });
-  }
   // validation of empty fields start here
   if (!tableNumber) {
     return res.status(422).json({
       error: "Please add table number",
     });
   }
+  // check if table exists
+  if (!(await Table.findOne({ tableNumber: tableNumber }))) {
+    return res.status(422).json({
+      error: "Table does not exist",
+    });
+  }
   // validation of empty fields end here
 
-  const table = new Table({
-    tableNumber: tableNumber,
-    occupied: false,
-  });
+  const exisitingTable = await Table.findOne({ tableNumber: tableNumber });
+
+  if (exisitingTable && exisitingTable.occupied) {
+    return res.status(422).json({
+      success: false,
+      error: "Table already occupied",
+    });
+  }
+
+  if (exisitingTable && !exisitingTable.occupied) {
+    exisitingTable.occupied = true;
+    exisitingTable.occupiedBy = userId;
+    await exisitingTable.save();
+  }
 
   res.json({
     success: true,
     message: "Table booked successfully",
-    data: table,
+    data: exisitingTable,
   });
-
-  const savedTable = await table.save();
 });
 
 // API routes end here
