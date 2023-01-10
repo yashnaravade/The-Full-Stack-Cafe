@@ -1,8 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
+// import models
 import User from "./models/User.js";
 import FoodItem from "./models/FoodItem.js";
+import Table from "./models/Table.js";
 
 // load environment variables
 dotenv.config();
@@ -294,7 +297,7 @@ app.get("/food-items/:category", async (req, res) => {
 app.get("/food-item", async (req, res) => {
   const foodItem = await FoodItem.find({
     title: { $regex: req.query.title, $options: "i" },
-  }); 
+  });
   // i - case insensitive
   // g - global search
   // m - multiline search
@@ -306,7 +309,47 @@ app.get("/food-item", async (req, res) => {
     data: foodItem,
   });
 
-  // A - add a query string to the url like this: http://localhost:5000/food-item?title=pizza
+  //  add a query string to the url like this: http://localhost:5000/food-item?title=pizza
+});
+
+// Table booking route
+app.post("/book-table", async (req, res) => {
+  const { tableNumber, occupied, occupiedBy, createdAt } = req.body;
+
+  // validation of empty fields start here
+
+  const emptyFields = [];
+  if (!tableNumber) {
+    emptyFields.push("tableNumber");
+  }
+  if (!occupied) {
+    emptyFields.push("occupied");
+  }
+  if(!occupiedBy) {
+    emptyFields.push("occupiedBy");
+  }
+
+  if (emptyFields.length > 0) {
+    return res.status(422).json({ 
+      error: `Please add ${emptyFields.join(", ")}`,
+    });
+  }
+  // validation of empty fields end here
+
+  const table = new Table({
+    tableNumber: tableNumber,
+    occupied: occupied,
+    occupiedBy: occupiedBy,
+    createdAt: createdAt,
+  });
+
+  res.json({
+    success: true,
+    message: "Table booked successfully",
+    data: table,
+  });
+
+  const savedTable = await table.save();
 });
 
 // API routes end here
