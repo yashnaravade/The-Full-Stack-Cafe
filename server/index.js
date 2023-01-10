@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import User from "./models/User.js";
 import FoodItem from "./models/FoodItem.js";
 import Table from "./models/Table.js";
+import Order from "./models/Order.js";
 
 // load environment variables
 dotenv.config();
@@ -421,6 +422,91 @@ app.get("/available-tables", async (req, res) => {
   });
 });
 
+// order food route
+app.post("/order-food", async (req, res) => {
+  const { userId, foodItems, tableNumber } = req.body;
+
+  // validation of empty fields start here
+  if (!userId) {
+    return res.status(422).json({
+      error: "Please add user id",
+    });
+  }
+  if (!foodItems || foodItems.length === 0) {
+    return res.status(422).json({
+      error: "Please add food items",
+    });
+  }
+  if (!tableNumber) {
+    return res.status(422).json({
+      error: "Please add table number",
+    });
+  }
+  // validation of empty fields end here
+
+  //check if table exists and is occupied by the user
+  // const table = await Table.findOne({ tableNumber: tableNumber });
+  // if (!table) {
+  //   return res.status(422).json({
+  //     error: "Table does not exist",
+  //   });
+  // }
+  // if (table.occupiedBy !== userId) {
+  //   return res.status(422).json({
+  //     error: "Table is not occupied by you",
+  //   });
+  // }
+
+  // const orderId = uuidv4(); // npm i uuid
+  const orderId = "ORDER-" + Date.now();
+
+  // count the number of orders
+  const count = await Order.countDocuments();
+
+  const order = new Order({
+    userId: userId,
+    foodItems: foodItems,
+    tableNumber: tableNumber,
+    orderId: orderId,
+    orderNumber: count + 1,
+  });
+
+  const savedOrder = await order.save();
+
+  res.json({
+    success: true,
+    message: "Order placed successfully",
+    data: savedOrder,
+  });
+});
+
+// get the orders of a user
+app.get("/user-orders", async (req, res) => {
+  const { userId } = req.query;
+
+  const userOrders = await Order.findOne({ userId: userId });
+
+  res.json({
+    success: true,
+    message: "User orders fetched successfully",
+    data: userOrders,
+  });
+  // add a query string to the url like this: http://localhost:5000/user-orders?userId=60e1b1b0b0b5a8a0f4b0b0a1
+});
+
+// get the orders of a table
+app.get("/table-orders", async (req, res) => {
+  const { tableNumber } = req.query;
+
+  const tableOrders = await Order.findOne({ tableNumber: tableNumber });
+
+  res.json({
+    success: true,
+    message: "Table orders fetched successfully",
+    data: tableOrders,
+  });
+  // add a query string to the url like this: http://localhost:5000/table-orders?tableNumber=1
+});
 
 // API routes end here
 
