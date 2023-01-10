@@ -10,13 +10,14 @@ const tableSchema = new Schema({
     required: true,
   },
   occupiedBy: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: false,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-  }, 
+  },
 });
 
 export default model("Table", tableSchema);

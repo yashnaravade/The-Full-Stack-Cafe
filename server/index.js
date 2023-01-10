@@ -312,35 +312,64 @@ app.get("/food-item", async (req, res) => {
   //  add a query string to the url like this: http://localhost:5000/food-item?title=pizza
 });
 
+// Create table route
+app.post("/create-table", async (req, res) => {
+  const { tableNumber } = req.body;
+
+  const exisitingTable = await Table.findOne({ tableNumber: tableNumber });
+
+  if (exisitingTable) {
+    return res.status(422).json({
+      success: false,
+      error: "Table already exists",
+    });
+  }
+
+  if(!tableNumber) { 
+    return res.status(422).json({
+      error: "Please add table number",
+    });
+  }
+
+  const table = new Table({
+    tableNumber: tableNumber,
+    occupied: false,
+  });
+
+  res.json({
+    success: true,
+    message: "Table created successfully",
+    data: table,
+  } );
+
+  const savedTable = await table.save();
+
+});
+
+
 // Table booking route
 app.post("/book-table", async (req, res) => {
-  const { tableNumber, occupied, occupiedBy, createdAt } = req.body;
+  const { tableNumber } = req.body;
 
+  const exisitingTable = await Table.findOne({ tableNumber: tableNumber });
+
+  if (exisitingTable) {
+    return res.status(422).json({
+      success: false,
+      error: "Table already booked",
+    });
+  }
   // validation of empty fields start here
-
-  const emptyFields = [];
   if (!tableNumber) {
-    emptyFields.push("tableNumber");
-  }
-  if (!occupied) {
-    emptyFields.push("occupied");
-  }
-  if(!occupiedBy) {
-    emptyFields.push("occupiedBy");
-  }
-
-  if (emptyFields.length > 0) {
-    return res.status(422).json({ 
-      error: `Please add ${emptyFields.join(", ")}`,
+    return res.status(422).json({
+      error: "Please add table number",
     });
   }
   // validation of empty fields end here
 
   const table = new Table({
     tableNumber: tableNumber,
-    occupied: occupied,
-    occupiedBy: occupiedBy,
-    createdAt: createdAt,
+    occupied: false,
   });
 
   res.json({
