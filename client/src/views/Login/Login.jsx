@@ -16,7 +16,7 @@ function Login() {
             <input type="password" name="" required="required" />
 
             <button
-              type="submit"
+              type="button"
               id="login-btn"
               name="Login"
               value="Login"
