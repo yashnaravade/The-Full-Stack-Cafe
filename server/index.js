@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+import cors from "cors";
 // import models
 import User from "./models/User.js";
 import FoodItem from "./models/FoodItem.js";
@@ -18,6 +18,15 @@ app.use(express.json());
 mongoose.connect(process.env.MONGODB_URI, () => {
   console.log("Connected to MongoDB");
 });
+
+
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
 
 // API routes start here
 
