@@ -1,5 +1,6 @@
 import React from "react";
 import "./Login.css";
+import Swal from "sweetalert2";
 
 function Login() {
   return (
@@ -10,11 +11,21 @@ function Login() {
           <div className="inputBox">
             <label>Username</label>
             <input type="text" name="" required="required" />
-           
+
             <label>Password</label>
             <input type="password" name="" required="required" />
-          
-            <input type="submit"  id="login-btn" name="" value="Login" />
+
+            <button
+              type="submit"
+              id="login-btn"
+              name="Login"
+              value="Login"
+              onClick={() => {
+                Swal.fire("Login Successful");
+              }}
+            >
+              Login
+            </button>
           </div>
         </form>
       </div>
