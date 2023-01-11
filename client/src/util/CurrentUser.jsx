@@ -1,0 +1,1 @@
+export const CurrentUser = JSON.parse(localStorage.getItem("currentUser") || null);

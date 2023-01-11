@@ -3,6 +3,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import "./Signup.css";
+import { CurrentUser } from "../../util/CurrentUser";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -13,6 +14,12 @@ function Signup() {
   const [role, setRole] = useState("user");
 
   console.log(name, email, phone, password, confirmPassword, role);
+  console.log(CurrentUser);
+
+  if (CurrentUser) {
+    window.location.href = "/";
+  }
+
   async function SignupUser(e) {
     axios
       .post("http://localhost:5000/signup", {
@@ -29,6 +36,7 @@ function Signup() {
           text: "You can now login to your account",
         });
         console.log(result.data);
+        window.location.href = "/login";
       })
       .catch((err) => {
         let errmsg = JSON.stringify(err.response.data);
