@@ -457,6 +457,8 @@ app.post("/order-food", async (req, res) => {
   //   });
   // }
 
+  // TODO: feature to add food items //to the cart and then place the order
+
   // const orderId = uuidv4(); // npm i uuid
   const orderId = "ORDER-" + Date.now();
 
