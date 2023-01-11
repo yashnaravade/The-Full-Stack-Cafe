@@ -5,8 +5,6 @@ import "./Signup.css";
 function Signup() {
   return (
     <>
- 
-
       <div className="Signup-box">
       <h1>Sign Up</h1>
         <form>
