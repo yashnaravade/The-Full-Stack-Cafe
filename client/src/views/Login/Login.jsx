@@ -9,15 +9,17 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  if(CurrentUser){
-    window.location.href = "/";
+  if (CurrentUser) {
+   
   }
+
   console.log(email, password);
 
-  async function LoginUser(e) { 
-    axios.post("http://localhost:5000/login", {
-      email: email,
-      password: password,
+  async function LoginUser(e) {
+    axios
+      .post("http://localhost:5000/login", {
+        email: email,
+        password: password,
       })
 
       .then((result) => {
@@ -26,7 +28,9 @@ function Login() {
           title: "Login Successful",
         });
         console.log(result.data);
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
         localStorage.setItem("currentUser", JSON.stringify(result.data));
       })
       .catch((err) => {
@@ -40,7 +44,6 @@ function Login() {
       });
   }
 
-
   return (
     <>
       <div className="Login-box">
@@ -48,10 +51,22 @@ function Login() {
         <form>
           <div className="inputBox">
             <label>Email</label>
-            <input type="text" name="" placeholder="Enter your email" required="required" onChange={(e)=> setEmail(e.target.value)} />
+            <input
+              type="text"
+              name=""
+              placeholder="Enter your email"
+              required="required"
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
             <label>Password</label>
-            <input type="password" name="" placeholder="Enter your password" required="required" onChange={(e)=> setPassword(e.target.value)} />
+            <input
+              type="password"
+              name=""
+              placeholder="Enter your password"
+              required="required"
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
             <button
               type="button"

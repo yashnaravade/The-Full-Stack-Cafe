@@ -36,7 +36,9 @@ function Signup() {
           text: "You can now login to your account",
         });
         console.log(result.data);
-        window.location.href = "/login";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
       })
       .catch((err) => {
         let errmsg = JSON.stringify(err.response.data);
