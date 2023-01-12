@@ -1,16 +1,19 @@
+import axios from "axios";
 import React from "react";
+import { useEffect, useState } from "react";
 import { CurrentUser } from "../../util/CurrentUser";
+import "./Home.css";
 
 function Home() {
-  console.log(CurrentUser);
+
+  // console.log(CurrentUser);
   function logOut() {
     localStorage.removeItem("currentUser");
-  
-  window.location.href = "/";
+
+    window.location.href = "/";
   }
   return (
     <div>
-      {/* navbar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
@@ -31,13 +34,21 @@ function Home() {
           </div>
         </div>
       </nav>
-      {/* navbar */}
 
       <h1>Welcome to Full Stack Cafe</h1>
       <h4>Hi, {CurrentUser ? CurrentUser.user.name : "Guest"}</h4>
-      <p>
-        Full Stack Cafe is a place where you can get delicious food and drinks.
-      </p>
+
+      <div className="search-container">
+        <input
+          type="text "
+          className="search-bar"
+          placeholder="Search for food, drinks, etc..."
+          name="search"
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ width: "50%" }}
+        />
+      </div>
+      
     </div>
   );
 }

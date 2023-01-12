@@ -311,6 +311,11 @@ app.get("/food-item", async (req, res) => {
   // g - global search
   // m - multiline search
   // s - dotall
+if (foodItem.length === 0) {
+    return res.status(422).json({
+      error: "No food items found",
+    });
+  }
 
   res.json({
     success: true,

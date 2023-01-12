@@ -10,7 +10,6 @@ function Login() {
   const [password, setPassword] = useState("");
 
   if (CurrentUser) {
-   
   }
 
   console.log(email, password);
