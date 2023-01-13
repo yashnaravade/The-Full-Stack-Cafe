@@ -84,7 +84,7 @@ function Home() {
         />
       </div>
       <div className="show-items-container">
-        <div className="row">
+        <div className="row mt-3">
           {currentItems.map((item, index) => {
             return (
               <FoodItemCard

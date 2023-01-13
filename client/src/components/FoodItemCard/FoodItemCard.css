@@ -60,7 +60,7 @@
   margin-bottom: 10px;
 }
 
-.card-desc{
+.card-desc {
   font-size: 1rem;
   font-weight: 400;
   color: #000;
@@ -99,4 +99,17 @@
 
 .card:hover {
   transform: scale(1.05);
+}
+
+.qty-count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.qty-change-btn {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  padding: 0 15px;
 }
