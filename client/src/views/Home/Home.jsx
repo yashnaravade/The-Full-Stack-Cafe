@@ -1,9 +1,9 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import FoodItem from "../../../../server/models/FoodItem";
 import { CurrentUser } from "../../util/CurrentUser";
 import "./Home.css";
+import FoodItemCard from "../../components/FoodItemCard/FoodItemCard";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -75,19 +75,16 @@ function Home() {
       </div>
       <div className="show-items-container">
         {
-          currentItems.map((item) => {
+          currentItems.map((item, index) => {
             return (
-              // <FoodItem
-              //   key={item._id}
-              //   title={item.title}
-              //   description={item.description}
-              //   price={item.price}
-              //   image={item.image}
-              // />
-              <div className="card" style={{ width: "18rem" }}>
-                <h2 className="card-title">{item.title}</h2>
-                </div>
-                
+              <FoodItemCard
+                // key={item._id} 
+                key={index}
+                title={item.title}
+                description={item.description}
+                price={item.price}
+                imgURL={item.imgURL}
+              />
             );
           })
         }
