@@ -83,7 +83,7 @@ function Home() {
                 title={item.title}
                 description={item.description}
                 price={item.price}
-                imgURL={item.imgURL}
+                image={item.imgURL}
               />
             );
           })
