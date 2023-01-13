@@ -1,24 +1,27 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
+import FoodItem from "../../../../server/models/FoodItem";
 import { CurrentUser } from "../../util/CurrentUser";
 import "./Home.css";
 
 function Home() {
   const [search, setSearch] = useState("");
+  const [currentItems, setCurrentItems] = useState([]);
 
   async function fetchSpecificItem() {
     console.log("fetching specific item");
-
     const response = await axios.get(
       `http://localhost:5000/food-item?title=${search}`
     );
-    console.log(response.data);
+    console.log(response.data.data);
+    setCurrentItems(response.data.data);
   }
   async function fetchAllItems() {
     console.log("fetching all items");
     const response = await axios.get(`http://localhost:5000/all-food-items`);
-    console.log(response.data);
+    console.log(response.data.data);
+    setCurrentItems(response.data.data);
   }
 
   useEffect(() => {
@@ -69,6 +72,25 @@ function Home() {
           onChange={(e) => setSearch(e.target.value)}
           style={{ width: "50%" }}
         />
+      </div>
+      <div className="show-items-container">
+        {
+          currentItems.map((item) => {
+            return (
+              // <FoodItem
+              //   key={item._id}
+              //   title={item.title}
+              //   description={item.description}
+              //   price={item.price}
+              //   image={item.image}
+              // />
+              <div className="card" style={{ width: "18rem" }}>
+                <h2 className="card-title">{item.title}</h2>
+                </div>
+                
+            );
+          })
+        }
       </div>
     </div>
   );
