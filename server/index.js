@@ -19,14 +19,13 @@ mongoose.connect(process.env.MONGODB_URI, () => {
   console.log("Connected to MongoDB");
 });
 
+const corsOptions = {
+  origin: "*",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 
-const corsOptions ={
-   origin:'*', 
-   credentials:true,            //access-control-allow-credentials:true
-   optionSuccessStatus:200,
-}
-
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
 // API routes start here
 
@@ -307,11 +306,8 @@ app.get("/food-item", async (req, res) => {
   const foodItem = await FoodItem.find({
     title: { $regex: req.query.title, $options: "i" },
   });
-  // i - case insensitive
-  // g - global search
-  // m - multiline search
-  // s - dotall
-if (foodItem.length === 0) {
+
+  if (foodItem.length === 0) {
     return res.status(422).json({
       error: "No food items found",
     });
@@ -323,7 +319,24 @@ if (foodItem.length === 0) {
     data: foodItem,
   });
 
-  //  add a query string to the url like this: http://localhost:5000/food-item?title=pizza
+  // A - add a query string to the url like this: http://localhost:5000/food-item?title=chicken
+});
+
+// get all food items
+app.get("/all-food-items", async (req, res) => {
+  const foodItems = await FoodItem.find({});
+
+  if (foodItems.length === 0) {
+    return res.status(422).json({
+      error: "No food items found",
+    });
+  }
+
+  res.json({
+    success: true,
+    message: "Food items fetched successfully",
+    data: foodItems,
+  });
 });
 
 // Create table route

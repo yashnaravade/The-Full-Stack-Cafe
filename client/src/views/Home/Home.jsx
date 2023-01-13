@@ -5,11 +5,31 @@ import { CurrentUser } from "../../util/CurrentUser";
 import "./Home.css";
 
 function Home() {
+  const [search, setSearch] = useState("");
+
+  async function fetchSpecificItem() {
+    console.log("fetching specific item");
+
+    const response = await axios.get(`http://localhost:5000/food-item?title=${search}`);
+    console.log(response.data);
+
+  }
+  async function fetchAllItems() {
+    console.log("fetching all items");
+    const response = await axios.get(`http://localhost:5000/all-food-items`);
+  }
+
+  useEffect(() => {
+    if (search.length > 2) {
+      fetchSpecificItem();
+    } else {
+      fetchAllItems();
+    }
+  }, [search]);
 
   // console.log(CurrentUser);
   function logOut() {
     localStorage.removeItem("currentUser");
-
     window.location.href = "/";
   }
   return (
@@ -48,7 +68,6 @@ function Home() {
           style={{ width: "50%" }}
         />
       </div>
-      
     </div>
   );
 }
