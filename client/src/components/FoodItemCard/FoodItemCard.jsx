@@ -2,10 +2,23 @@ import React, { useState } from "react";
 import "./FoodItemCard.css";
 
 function FoodItemCard({ category, title, price, description, image }) {
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   if (quantity < 0) {
     setQuantity(0);
+  }
+
+  async function AddToCart() {
+    const cartObj = {
+      name: title,
+      price: price,
+      quantity: quantity,
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    existingCart.push(cartObj);
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    console.log(existingCart);
   }
 
   return (
@@ -15,7 +28,7 @@ function FoodItemCard({ category, title, price, description, image }) {
           <img src={image} className="card-img-top" alt="..." />
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
-            <p className="card-desc">{description}</p>
+            <p className="card-desc">{description || title} </p>
             <p className="card-text">₹{price}/-</p>
 
             {/*increment and decreament buttons for quantity */}
@@ -41,9 +54,15 @@ function FoodItemCard({ category, title, price, description, image }) {
               </button>
             </div>
 
-            <a href="#" className="btn btn-primary">
+            <button
+              href="#"
+              className="btn btn-primary"
+              onClick={() => {
+                AddToCart();
+              }}
+            >
               Add to Cart
-            </a>
+            </button>
           </div>
         </div>
       </div>
