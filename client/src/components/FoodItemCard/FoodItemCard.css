@@ -8,7 +8,7 @@
   justify-content: center !important;
   align-items: center !important;
   margin: auto;
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .card {
@@ -58,6 +58,15 @@
   color: #000;
   text-align: center;
   margin-bottom: 10px;
+}
+
+.card-desc{
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  margin-bottom: 10px;
+  font-style: italic;
 }
 
 .card-price {
