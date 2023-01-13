@@ -47,15 +47,27 @@ function Home() {
 
           {/* login and signup buttons on the right */}
           <div className="d-flex">
+                  {/* dont show the login button if the user if logged in */}
+            {!CurrentUser ? (
             <a className="btn btn-outline-primary mx-1" href="/login">
               Login
             </a>
-            <a className="btn btn-outline-primary" href="/signup">
-              Signup
-            </a>
-            <button onClick={logOut}>
-              <a className="btn btn-outline-primary">Logout</a>
-            </button>
+            ) : null}
+            
+
+            {/* dont show the signup button if the user if logged in */}
+            {!CurrentUser ? (
+              <a className="btn btn-outline-primary mx-1" href="/signup">
+                Signup
+              </a>
+            ) : null}
+
+            
+            {CurrentUser ? (
+              <button className="btn btn-outline-primary mx-1" onClick={logOut}>
+                Log Out
+              </button>
+            ) : null}
           </div>
         </div>
       </nav>
@@ -74,20 +86,18 @@ function Home() {
         />
       </div>
       <div className="show-items-container">
-        {
-          currentItems.map((item, index) => {
-            return (
-              <FoodItemCard
-                // key={item._id} 
-                key={index}
-                title={item.title}
-                description={item.description}
-                price={item.price}
-                image={item.imgURL}
-              />
-            );
-          })
-        }
+        {currentItems.map((item, index) => {
+          return (
+            <FoodItemCard
+              // key={item._id}
+              key={index}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+              image={item.imgURL}
+            />
+          );
+        })}
       </div>
     </div>
   );

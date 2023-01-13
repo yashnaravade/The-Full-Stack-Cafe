@@ -5,9 +5,10 @@
   box-sizing: border-box;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
-  justify-content: center;
-  align-items: center;
+  justify-content: center !important;
+  align-items: center !important;
   margin: auto;
+    flex-wrap: wrap;
 }
 
 .card {
@@ -23,6 +24,7 @@
   padding: 20px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
+  margin: 5px;
 }
 
 .card-img-top {
