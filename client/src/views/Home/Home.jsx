@@ -10,13 +10,15 @@ function Home() {
   async function fetchSpecificItem() {
     console.log("fetching specific item");
 
-    const response = await axios.get(`http://localhost:5000/food-item?title=${search}`);
+    const response = await axios.get(
+      `http://localhost:5000/food-item?title=${search}`
+    );
     console.log(response.data);
-
   }
   async function fetchAllItems() {
     console.log("fetching all items");
     const response = await axios.get(`http://localhost:5000/all-food-items`);
+    console.log(response.data);
   }
 
   useEffect(() => {
