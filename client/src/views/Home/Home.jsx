@@ -1,15 +1,14 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import { CurrentUser } from "../../util/CurrentUser";
 import "./Home.css";
 import FoodItemCard from "../../components/FoodItemCard/FoodItemCard";
-import {loginRequired} from "../../util/loginRequired";
+import { loginRequired } from "../../util/loginRequired";
+import { CurrentUser } from "../../util/CurrentUser";
 
 function Home() {
   const [search, setSearch] = useState("");
   const [currentItems, setCurrentItems] = useState([]);
-  const [currentUserVar, setCurrentUser] = useState(CurrentUser);
 
   async function fetchSpecificItem() {
     console.log("fetching specific item");
@@ -26,13 +25,9 @@ function Home() {
     setCurrentItems(response.data.data);
   }
 
-useEffect(() => {
-
-  if (!CurrentUser) {
+  useEffect(() => {
     loginRequired();
-  }
-}, currentUserVar);
-
+  }, []);
 
   useEffect(() => {
     if (search.length > 2) {
@@ -42,7 +37,6 @@ useEffect(() => {
     }
   }, [search]);
 
-  console.log(CurrentUser);
   function logOut() {
     localStorage.removeItem("currentUser");
     window.location.href = "/";

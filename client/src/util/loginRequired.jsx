@@ -1,8 +1,10 @@
 import swal from "sweetalert2";
+import { CurrentUser } from "./CurrentUser";
 
 export function loginRequired() {
+  if (!CurrentUser) {
     swal
-        .fire({
+      .fire({
         title: "Login Required",
         text: "Please login to continue",
         icon: "warning",
@@ -11,11 +13,11 @@ export function loginRequired() {
         showCancelButton: true,
         cancelButtonText: "Cancel",
         cancelButtonColor: "#d33",
-        })
-        .then((result) => {
+      })
+      .then((result) => {
         if (result.isConfirmed) {
-            window.location.href = "/login";
+          window.location.href = "/login";
         }
-        });
-    }
-    
+      });
+  }
+}
