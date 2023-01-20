@@ -2,9 +2,9 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { CurrentUser } from "../../util/CurrentUser";
-import swal from "sweetalert2";
 import "./Home.css";
 import FoodItemCard from "../../components/FoodItemCard/FoodItemCard";
+import {loginRequired} from "../../util/loginRequired";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -26,30 +26,13 @@ function Home() {
     setCurrentItems(response.data.data);
   }
 
-  async function loginRequired() {
-    swal
-      .fire({
-        title: "Login Required",
-        text: "Please login to continue",
-        icon: "warning",
-        confirmButtonText: "Login",
-        confirmButtonColor: "#3085d6",
-        showCancelButton: true,
-        cancelButtonText: "Cancel",
-        cancelButtonColor: "#d33",
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/login";
-        }
-      });
-  }
+useEffect(() => {
 
-  useEffect(() => {
-    if (!CurrentUser) {
-      loginRequired();
-    }
-  }, currentUserVar);
+  if (!CurrentUser) {
+    loginRequired();
+  }
+}, currentUserVar);
+
 
   useEffect(() => {
     if (search.length > 2) {
