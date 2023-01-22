@@ -35,6 +35,12 @@ function MyCart() {
             </table>
           </div>
         </div>
+        <div className="row">
+            <div className="col-12 d-flex justify-content-end">
+                <button className="btn btn-primary">Confirm Order</button>
+                </div>
+                </div>
+
       </div>
     </div>
   );
