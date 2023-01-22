@@ -1,8 +1,18 @@
 import React from "react";
-import { CurrentUser } from "../../../util/CurrentUser";
+import { useState } from "react";
+import { CurrentUser } from "../../util/CurrentUser";
 import "./Navbar.css";
 
+import FoodItemList from "../../util/FoodItemList";
+import { Link } from "react-router-dom";
+
 function Navbar() {
+
+  const [foodItemCount, setFoodItemCount] = useState(FoodItemList.FoodItemListCount);
+
+
+
+
   function logOut() {
     localStorage.removeItem("currentUser");
     window.location.href = "/";
@@ -16,6 +26,17 @@ function Navbar() {
 
         {/* login and signup buttons on the right */}
         <div className="d-flex">
+ 
+          <Link to="/myCart">
+          {CurrentUser ? (
+            <a className="btn btn-outline-primary mx-1" href="/myCart">
+              Cart ({foodItemCount})
+            </a>
+          ) : null}
+          </Link>
+         
+
+
           {/* dont show the login button if the user if logged in */}
           {!CurrentUser ? (
             <a className="btn btn-outline-primary mx-1" href="/login">

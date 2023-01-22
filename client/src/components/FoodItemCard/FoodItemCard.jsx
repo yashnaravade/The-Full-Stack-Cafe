@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 import "./FoodItemCard.css";
 
 function FoodItemCard({ category, title, price, description, image }) {
@@ -19,6 +20,18 @@ function FoodItemCard({ category, title, price, description, image }) {
     existingCart.push(cartObj);
     localStorage.setItem("cart", JSON.stringify(existingCart));
     console.log(existingCart);
+
+    await Swal.fire ({
+      title: "Added to Cart",
+      text: "Item added to cart successfully",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+
+    // setQuantity(1);
+
+    window.location.reload();
+
   }
 
   return (

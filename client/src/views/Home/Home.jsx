@@ -5,7 +5,7 @@ import "./Home.css";
 import FoodItemCard from "../../components/FoodItemCard/FoodItemCard";
 import { loginRequired } from "../../util/loginRequired";
 import { CurrentUser } from "../../util/CurrentUser";
-import Navbar from "../../components/FoodItemCard/Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 
 function Home() {
   const [search, setSearch] = useState("");
