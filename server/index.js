@@ -154,14 +154,19 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
+  // check if we have email or phone number in the request body
+  const emailvar = email.includes("@") ? email : null;
+  const phone = emailvar ? null : email;
+
   // Validation of empty fields start here
   const emptyFields = [];
-  if (!email) {
-    emptyFields.push("email");
+  if (!emailvar && !phone) {
+    emptyFields.push("email or phone");
   }
   if (!password) {
     emptyFields.push("password");
   }
+
   if (emptyFields.length > 0) {
     return res.status(422).json({
       error: `Please add ${emptyFields.join(", ")}`,
@@ -170,25 +175,38 @@ app.post("/login", async (req, res) => {
   // Validation of empty fields end here
 
   //   Validation of email start here
-  const emailRegex =
-    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(422).json({
-      error: "Please enter a valid email",
-    });
+  if (emailvar) {
+    const emailRegex =
+      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(422).json({
+        error: "Please enter a valid email",
+      });
+    }
   }
   //   Validation of email end here
 
-// convert password to md5 hash before comparing with the password in the database 
+  //   Validation of phone start here
+  if (phone) {
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone)) {
+      return res.status(422).json({
+        error: "Please enter a valid phone number",
+      });
+    }
+  }
+  //   Validation of phone end here
+
+  // convert password to md5 hash before comparing with the password in the database
+  // find user by email or phone number and password
   const user = await User.findOne({
-    email: email,
-    password : md5(password)
+    $or: [{ email: emailvar }, { phone: phone }],
+    password: md5(password),
   });
-  
 
   if (!user) {
     return res.status(422).json({
-      error: "Invalid email or password",
+      error: "Invalid email, phone or password",
     });
   }
 
@@ -198,6 +216,7 @@ app.post("/login", async (req, res) => {
     user: user,
   });
 });
+// login end here
 
 // get all users
 app.get("/all-users", async (req, res) => {
