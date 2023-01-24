@@ -26,6 +26,10 @@ function MyCart() {
       window.location.href = "/";
     }
 
+    // TODO: Show orders of the user in a table in the orders page 
+
+    
+
     console.log(CurrentUser.user._id);
     console.log(FoodItemList.FoodItemCart);
   }
