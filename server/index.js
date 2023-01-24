@@ -7,8 +7,8 @@ import User from "./models/User.js";
 import FoodItem from "./models/FoodItem.js";
 import Table from "./models/Table.js";
 import Order from "./models/Order.js";
+import md5 from "md5";
 
-// load environment variables
 dotenv.config();
 
 const app = express();
@@ -136,7 +136,7 @@ app.post("/signup", async (req, res) => {
     name: name,
     email: email,
     phone: phone,
-    password: password, // TODO: hash the password
+    password: md5(password),
     role: role,
     timestamp: Date.now(),
   });
@@ -179,7 +179,12 @@ app.post("/login", async (req, res) => {
   }
   //   Validation of email end here
 
-  const user = await User.findOne({ email: email, password: password });
+// convert password to md5 hash before comparing with the password in the database 
+  const user = await User.findOne({
+    email: email,
+    password : md5(password)
+  });
+  
 
   if (!user) {
     return res.status(422).json({
