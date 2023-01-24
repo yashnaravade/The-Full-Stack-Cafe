@@ -6,6 +6,8 @@ import FoodItemCard from "../../components/FoodItemCard/FoodItemCard";
 import { loginRequired } from "../../util/loginRequired";
 import { CurrentUser } from "../../util/CurrentUser";
 import Navbar from "../../components/Navbar/Navbar";
+import FoodItemList from "../../util/FoodItemList";
+import Swal from "sweetalert2";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -48,6 +50,13 @@ function Home() {
      
       <h1>Welcome to Full Stack Cafe</h1>
       <h4>Hi, {CurrentUser ? CurrentUser.user.name : "Guest"}</h4>
+
+      {/* go to your cart if cart items exists */}
+      {CurrentUser &&  FoodItemList.FoodItemCart.length > 0 && (
+        <a href="/myCart" className="btn btn-primary">
+          Go to your cart
+        </a>
+      )}
 
       <div className="search-container">
         <input

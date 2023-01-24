@@ -2,8 +2,34 @@ import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./MyCart.css";
 import FoodItemList from "../../util/FoodItemList";
+import axios from "axios";
+import { CurrentUser } from "../../util/CurrentUser";
+import Swal from "sweetalert2";
 
 function MyCart() {
+  async function placeOrder() {
+    const response = await axios.post("http://localhost:5000/order-food", {
+      tableNumber: 69,
+      userId: CurrentUser.user._id,
+      foodItems: FoodItemList.FoodItemCart,
+    });
+    console.log(response);
+    if (response.data.success) {
+      localStorage.removeItem("cart");
+      Swal.fire ({
+        title: "Order Placed",
+        text: "Your order has been placed successfully",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      window.location.href = "/";
+    }
+
+    console.log(CurrentUser.user._id);
+    console.log(FoodItemList.FoodItemCart);
+  }
+
   return (
     <div>
       <Navbar />
@@ -36,11 +62,12 @@ function MyCart() {
           </div>
         </div>
         <div className="row">
-            <div className="col-12 d-flex justify-content-end">
-                <button className="btn btn-primary">Confirm Order</button>
-                </div>
-                </div>
-
+          <div className="col-12 d-flex justify-content-end">
+            <button className="btn btn-primary" onClick={placeOrder}>
+              Confirm Order
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
