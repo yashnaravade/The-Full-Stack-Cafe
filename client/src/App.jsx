@@ -6,6 +6,7 @@ import Signup from "./views/Signup/Signup";
 import BookTable from "./views/BookTable/BookTable";
 import MyOrders from "./views/MyOrders/MyOrders";
 import MyCart from "./views/MyCart/MyCart";
+import Checkout from "./views/Checkout/Checkout";
 
 function App() {
   return (  
@@ -19,6 +20,7 @@ function App() {
           <Route path="/bookTable" element={<BookTable/>} />
           <Route path="/myOrders" element={<MyOrders/>} />
           <Route path="/myCart" element={<MyCart/>} />
+          <Route path="/checkout" element={<Checkout/>} />
         </Routes>
         </BrowserRouter>
     </>

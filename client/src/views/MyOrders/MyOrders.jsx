@@ -19,8 +19,8 @@ function MyOrders() {
     console.log(response.data.data.foodItems);
     setMyOrdersVar(response.data.data.foodItems);
     setTableNumberVar(response.data.data.tableNumber);
-    // print the table number in console
     console.log(response.data.data.tableNumber);
+    console.log(myOrdersVar);
   }
 
   useEffect(() => {

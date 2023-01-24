@@ -62,6 +62,20 @@ function Home() {
           {/* show available tables */}
           <a className="btn btn-primary m-2" href="/bookTable">Show available tables</a>
 
+          {/* show my orders */}
+          <a className="btn btn-primary m-2" href="/myOrders">Show my orders</a>
+
+          {/* show checkout button on the right hand side */}
+          {CurrentUser && FoodItemList.FoodItemCart.length > 0 && (
+            <a href="/checkout" className="btn btn-primary m-2">
+              Checkout
+            </a>
+          )}
+          
+
+
+          
+
 
    
 
