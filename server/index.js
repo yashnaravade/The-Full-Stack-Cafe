@@ -533,8 +533,8 @@ app.post("/order-food", async (req, res) => {
   });
 });
 
- // update the order by adding or removing food items from the order by the user id
-app.put ("/update-order", async (req, res) => {
+// update the order by adding or removing food items from the order by the user id
+app.put("/update-order", async (req, res) => {
   const { userId, foodItems } = req.body;
 
   // validation of empty fields start here
@@ -550,7 +550,7 @@ app.put ("/update-order", async (req, res) => {
   }
   // validation of empty fields end here
 
-  const order = await Order.findOne ({ userId: userId });
+  const order = await Order.findOne({ userId: userId });
 
   if (!order) {
     return res.status(422).json({
@@ -558,11 +558,10 @@ app.put ("/update-order", async (req, res) => {
     });
   }
 
-//  update the order by just adding the new food items to the existing order
+  //  update the order by just adding the new food items to the existing order
   order.foodItems = [...order.foodItems, ...foodItems];
 
   await order.save();
-  
 
   res.json({
     success: true,
@@ -570,7 +569,6 @@ app.put ("/update-order", async (req, res) => {
     data: order,
   });
 });
-
 
 // get the orders of a user
 app.get("/user-orders", async (req, res) => {

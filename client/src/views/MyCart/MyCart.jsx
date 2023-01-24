@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./MyCart.css";
 import FoodItemList from "../../util/FoodItemList";
@@ -7,39 +8,77 @@ import { CurrentUser } from "../../util/CurrentUser";
 import Swal from "sweetalert2";
 
 function MyCart() {
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+
   async function placeOrder() {
-    // Q: how to update the order in the database if the user confirms the order again.
-    // A: check if the order is already placed or not. If not, then place the order. If yes, then show a message saying that the order has already been placed.
+    const userId = CurrentUser.user._id;
 
-    // check if the order is already placed or not
-
-    const response = await axios.post("http://localhost:5000/order-food", {
-      tableNumber: 69,
-      userId: CurrentUser.user._id,
-      foodItems: FoodItemList.FoodItemCart,
-    });
-    console.log(response);
-    if (response.data.success) {
-      localStorage.removeItem("cart");
-      Swal.fire({
-        title: "Order Placed",
-        text: "Your order has been placed successfully",
-        icon: "success",
-        confirmButtonText: "OK",
+    if (isOrderPlaced) {
+      const response = await axios.post("http://localhost:5000/order-food", {
+        tableNumber: 69,
+        userId: CurrentUser.user._id,
+        foodItems: FoodItemList.FoodItemCart,
       });
 
-      window.location.href = "/";
-    } else {
-      Swal.fire({
-        title: "Error",
-        text: "Something went wrong",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      // set the isOrderPlaced state to true so that the next time the user clicks on the place order button, the update order route is called instead of the place order route
+      async function setTheState() {
+        setIsOrderPlaced(true);
+        console.log("setTheState wala click hua hai" + isOrderPlaced);
+      }
+      setTheState();
+
+      console.log("Order Placed wala click hua hai" + isOrderPlaced);
+      console.log(response);
+      if (response.data.success) {
+        localStorage.removeItem("cart");
+        Swal.fire({
+          title: "Order Placed",
+          text: "Your order has been placed successfully",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+
+        window.location.href = "/";
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
 
-    console.log(CurrentUser.user._id);
-    console.log(FoodItemList.FoodItemCart);
+    if (!isOrderPlaced) {
+      const response = await axios.put("http://localhost:5000/update-order", {
+        userId: CurrentUser.user._id,
+        foodItems: FoodItemList.FoodItemCart,
+      });
+
+      setIsOrderPlaced(true);
+      console.log(response);
+      console.log("Update Order wala click hua hai");
+      if (response.data.success) {
+        localStorage.removeItem("cart");
+        Swal.fire({
+          title: "Order Placed",
+          text: "Your order has been placed successfully",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+
+        window.location.href = "/";
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+
+    console.log("dono mai nhi ghusa" + isOrderPlaced);
   }
 
   return (
