@@ -8,6 +8,11 @@ import Swal from "sweetalert2";
 
 function MyCart() {
   async function placeOrder() {
+    // Q: how to update the order in the database if the user confirms the order again.
+    // A: check if the order is already placed or not. If not, then place the order. If yes, then show a message saying that the order has already been placed.
+
+    // check if the order is already placed or not
+
     const response = await axios.post("http://localhost:5000/order-food", {
       tableNumber: 69,
       userId: CurrentUser.user._id,
@@ -16,7 +21,7 @@ function MyCart() {
     console.log(response);
     if (response.data.success) {
       localStorage.removeItem("cart");
-      Swal.fire ({
+      Swal.fire({
         title: "Order Placed",
         text: "Your order has been placed successfully",
         icon: "success",
@@ -24,11 +29,14 @@ function MyCart() {
       });
 
       window.location.href = "/";
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
-
-    // TODO: Show orders of the user in a table in the orders page 
-
-    
 
     console.log(CurrentUser.user._id);
     console.log(FoodItemList.FoodItemCart);

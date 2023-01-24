@@ -49,7 +49,7 @@ function Login() {
         <h1>Login</h1>
         <form>
           <div className="inputBox">
-            <label>Email</label>
+            <label>Email or Phone</label>
             <input
               type="text"
               name=""

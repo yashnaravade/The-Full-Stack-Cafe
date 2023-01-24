@@ -533,6 +533,45 @@ app.post("/order-food", async (req, res) => {
   });
 });
 
+ // update the order by adding or removing food items from the order by the user id
+app.put ("/update-order", async (req, res) => {
+  const { userId, foodItems } = req.body;
+
+  // validation of empty fields start here
+  if (!userId) {
+    return res.status(422).json({
+      error: "Please add user id",
+    });
+  }
+  if (!foodItems || foodItems.length === 0) {
+    return res.status(422).json({
+      error: "Please add food items",
+    });
+  }
+  // validation of empty fields end here
+
+  const order = await Order.findOne ({ userId: userId });
+
+  if (!order) {
+    return res.status(422).json({
+      error: "Order does not exist",
+    });
+  }
+
+//  update the order by just adding the new food items to the existing order
+  order.foodItems = [...order.foodItems, ...foodItems];
+
+  await order.save();
+  
+
+  res.json({
+    success: true,
+    message: "Order updated successfully",
+    data: order,
+  });
+});
+
+
 // get the orders of a user
 app.get("/user-orders", async (req, res) => {
   const { userId } = req.query;
