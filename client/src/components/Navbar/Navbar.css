@@ -1,0 +1,6 @@
+/* get the font Ultra regular and use it on the class .logo-text */
+.logo-text {
+  font-family: 'Ultra', serif;
+}
+
+

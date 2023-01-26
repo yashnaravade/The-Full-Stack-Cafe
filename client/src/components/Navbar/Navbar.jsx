@@ -5,6 +5,7 @@ import "./Navbar.css";
 
 import FoodItemList from "../../util/FoodItemList";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/logo-with-name.png";
 
 function Navbar() {
   const [foodItemCount, setFoodItemCount] = useState(
@@ -16,10 +17,12 @@ function Navbar() {
     window.location.href = "/";
   }
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">  
+
       <div className="container-fluid">
+        
         <a className="navbar-brand" href="/">
-          Full Stack Cafe
+          <img src={Logo} alt="logo" height="34" className="d-inline-block align-text-top" />
         </a>
 
         {/* login and signup buttons on the right */}
