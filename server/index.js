@@ -576,6 +576,12 @@ app.get("/user-orders", async (req, res) => {
 
   const userOrders = await Order.findOne({ userId: userId });
 
+  if (!userOrders) {
+    return res.status(422).json({
+      error: "User orders does not exist",
+    });
+  }
+
   res.json({
     success: true,
     message: "User orders fetched successfully",
