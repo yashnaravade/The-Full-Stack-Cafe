@@ -7,6 +7,7 @@ import BookTable from "./views/BookTable/BookTable";
 import MyOrders from "./views/MyOrders/MyOrders";
 import MyCart from "./views/MyCart/MyCart";
 import Checkout from "./views/Checkout/Checkout";
+import LandingPage from "./views/LandingPage/LandingPage";
 
 function App() {
   return (  
@@ -14,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/landingPage" element={<LandingPage />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/login" element={<Login/>} />
