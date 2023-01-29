@@ -1,6 +1,7 @@
 import React from "react";
 import "./LandingPage.css";
 import HeroImg from "../../assets/img/hero.png";
+import BgHeroImg from "../../assets/img/bg-hero.jpg";
 import AboutImg1 from "../../assets/img/about-1.jpg";
 import AboutImg2 from "../../assets/img/about-2.jpg";
 import AboutImg3 from "../../assets/img/about-3.jpg";
@@ -22,7 +23,6 @@ import TestimonialImg2 from "../../assets/img/testimonial-2.jpg";
 import TestimonialImg3 from "../../assets/img/testimonial-3.jpg";
 import TestimonialImg4 from "../../assets/img/testimonial-4.jpg";
 import VideoImg from "../../assets/img/video.jpg";
-
 
 function LandingPage() {
   return (
@@ -97,7 +97,7 @@ function LandingPage() {
         </nav>
         <div className="container-xxl py-5 bg-dark hero-header mb-5">
           <div className="container my-5 py-5">
-            <div className="row align-items-center g-5">
+            <div className="row align-items-center g-5" >
               <div className="col-lg-6 text-center text-lg-start">
                 <h1 className="display-3 text-white animated slideInLeft">
                   Enjoy Our
@@ -116,9 +116,13 @@ function LandingPage() {
                   Book A Table
                 </a>
               </div>
-              <div className="col-lg-6 text-center text-lg-end overflow-hidden">
-               <img src={HeroImg} alt="Hero" className="img-fluid animated slideInRight" />
-            </div>
+              <div className="col-lg-6 text-center text-lg-end overflow-hidden"  >
+                <img
+                  src={HeroImg}
+                  alt="Hero"
+                  className="img-fluid animated slideInRight"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -820,7 +824,12 @@ function LandingPage() {
       >
         <div className="row g-0">
           <div className="col-md-6">
-            <div className="video">
+            <div
+              className="video"
+              style={{
+                backgroundImage: `url(${VideoImg})`,
+              }}
+            >
               <button
                 type="button"
                 className="btn-play"
@@ -991,7 +1000,7 @@ function LandingPage() {
             >
               <div className="team-item text-center rounded overflow-hidden">
                 <div className="rounded-circle overflow-hidden m-4">
-                <img className="img-fluid" src={TeamImg2} alt="" />
+                  <img className="img-fluid" src={TeamImg2} alt="" />
                 </div>
                 <h5 className="mb-0">Full Name</h5>
                 <small>Designation</small>
@@ -1014,7 +1023,7 @@ function LandingPage() {
             >
               <div className="team-item text-center rounded overflow-hidden">
                 <div className="rounded-circle overflow-hidden m-4">
-                <img className="img-fluid" src={TeamImg3} alt="" />
+                  <img className="img-fluid" src={TeamImg3} alt="" />
                 </div>
                 <h5 className="mb-0">Full Name</h5>
                 <small>Designation</small>
@@ -1037,8 +1046,7 @@ function LandingPage() {
             >
               <div className="team-item text-center rounded overflow-hidden">
                 <div className="rounded-circle overflow-hidden m-4">
-                <img className="img-fluid" src={TeamImg4} alt="" />
-
+                  <img className="img-fluid" src={TeamImg4} alt="" />
                 </div>
                 <h5 className="mb-0">Full Name</h5>
                 <small>Designation</small>
@@ -1133,7 +1141,6 @@ function LandingPage() {
                 <img
                   className="img-fluid flex-shrink-0 rounded-circle"
                   src={TestimonialImg4}
-
                   style={{ width: "50px", height: "50px" }}
                 />
                 <div className="ps-3">
