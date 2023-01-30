@@ -1,5 +1,9 @@
 import React from "react";
 import "./LandingPage.css";
+import $ from "jquery";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel";
+
 import HeroImg from "../../assets/img/hero.png";
 import BgHeroImg from "../../assets/img/bg-hero.jpg";
 import AboutImg1 from "../../assets/img/about-1.jpg";
@@ -23,17 +27,242 @@ import TestimonialImg2 from "../../assets/img/testimonial-2.jpg";
 import TestimonialImg3 from "../../assets/img/testimonial-3.jpg";
 import TestimonialImg4 from "../../assets/img/testimonial-4.jpg";
 import VideoImg from "../../assets/img/video.jpg";
+import { useEffect } from "react";
 
 function LandingPage() {
+  useEffect(() => {
+    $(document).ready(function () {
+      // Spinner Start
+      $(window).on('load', function () {
+
+          $('#spinner').fadeOut(500);
+      });
+      // Spinner End
+      // Navbar & Hero Start
+      $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) {
+          $('.navbar').addClass('fixed-top');
+        } else {
+          $('.navbar').removeClass('fixed-top');
+        }
+      });
+      // Navbar & Hero End
+      // About Start
+      $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 4
+          }
+        }
+      });
+      // About End
+      // Menu Start
+      $('.menu-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 3
+          }
+        }
+      });
+      // Menu End
+      // Team Start
+      $('.team-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 4
+          }
+        }
+      });
+
+      // Team End
+      // Testimonial Start
+      $('.testimonial-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 3
+          }
+        }
+      });
+      // Testimonial End
+      // Testimonial carousel is not working, why?
+      // A: Because you have to add owl-carousel class to the carousel div
+      // Video Start
+      $('.video-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+
+          600: {
+
+            items: 2
+          },
+          1000: {
+            items: 3
+          }
+        }
+      });
+      // Video End
+      // Contact Start
+
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   (function ($) {
+     
+  //     // Initiate the wowjs
+  //     new WOW().init();
+
+  //     // Sticky Navbar
+  //     $(window).scroll(function () {
+  //       if ($(this).scrollTop() > 45) {
+  //         $(".navbar").addClass("sticky-top shadow-sm");
+  //       } else {
+  //         $(".navbar").removeClass("sticky-top shadow-sm");
+  //       }
+  //     });
+
+  //     // Dropdown on mouse hover
+  //     const $dropdown = $(".dropdown");
+  //     const $dropdownToggle = $(".dropdown-toggle");
+  //     const $dropdownMenu = $(".dropdown-menu");
+  //     const showClass = "show";
+
+  //     $(window).on("load resize", function () {
+  //       if (this.matchMedia("(min-width: 992px)").matches) {
+  //         $dropdown.hover(
+  //           function () {
+  //             const $this = $(this);
+  //             $this.addClass(showClass);
+  //             $this.find($dropdownToggle).attr("aria-expanded", "true");
+  //             $this.find($dropdownMenu).addClass(showClass);
+  //           },
+  //           function () {
+  //             const $this = $(this);
+  //             $this.removeClass(showClass);
+  //             $this.find($dropdownToggle).attr("aria-expanded", "false");
+  //             $this.find($dropdownMenu).removeClass(showClass);
+  //           }
+  //         );
+  //       } else {
+  //         $dropdown.off("mouseenter mouseleave");
+  //       }
+  //     });
+
+  //     // Back to top button
+  //     $(window).scroll(function () {
+  //       if ($(this).scrollTop() > 300) {
+  //         $(".back-to-top").fadeIn("slow");
+  //       } else {
+  //         $(".back-to-top").fadeOut("slow");
+  //       }
+  //     });
+  //     $(".back-to-top").click(function () {
+  //       $("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo");
+  //       return false;
+  //     });
+
+  //     // Facts counter
+  //     $('[data-toggle="counter-up"]').counterUp({
+  //       delay: 10,
+  //       time: 2000,
+  //     });
+
+  //     // Modal Video
+  //     $(document).ready(function () {
+  //       var $videoSrc;
+  //       $(".btn-play").click(function () {
+  //         $videoSrc = $(this).data("src");
+  //       });
+  //       console.log($videoSrc);
+
+  //       $("#videoModal").on("shown.bs.modal", function (e) {
+  //         $("#video").attr(
+  //           "src",
+  //           $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0"
+  //         );
+  //       });
+
+  //       $("#videoModal").on("hide.bs.modal", function (e) {
+  //         $("#video").attr("src", $videoSrc);
+  //       });
+  //     });
+
+  //     // Menu isotope and filter
+  //     $(window).on("load", function () {
+  //       var menuIsotope = $(".menu-container").isotope({
+  //         itemSelector: ".menu-item",
+  //         layoutMode: "fitRows",
+  //       });
+  //       // end the useeffect
+  //     });
+  //   })(jQuery);
+  // }, []);
+
   return (
     <div className="container-xxl bg-white p-0">
-      {/* Spinner Start */}
-      {/* <div id="spinner" className="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-      <div className="spinner-border text-primary" style={{width: '3rem', height: '3rem'}} role="status">
-        <span className="sr-only">Loading...</span>
-      </div>
-    </div> */}
-      {/* Spinner End */}
+   
       {/* Navbar & Hero Start */}
       <div className="container-xxl position-relative p-0">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
@@ -97,7 +326,7 @@ function LandingPage() {
         </nav>
         <div className="container-xxl py-5 bg-dark hero-header mb-5">
           <div className="container my-5 py-5">
-            <div className="row align-items-center g-5" >
+            <div className="row align-items-center g-5">
               <div className="col-lg-6 text-center text-lg-start">
                 <h1 className="display-3 text-white animated slideInLeft">
                   Enjoy Our
@@ -116,7 +345,7 @@ function LandingPage() {
                   Book A Table
                 </a>
               </div>
-              <div className="col-lg-6 text-center text-lg-end overflow-hidden"  >
+              <div className="col-lg-6 text-center text-lg-end overflow-hidden">
                 <img
                   src={HeroImg}
                   alt="Hero"
